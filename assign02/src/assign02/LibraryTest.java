@@ -1,6 +1,9 @@
 package assign02;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
@@ -10,7 +13,7 @@ import org.junit.jupiter.api.Test;
 /**
  * For testing the Library class.
  *
- * @author CS 2420 course staff and ***PROGRAMMING PAIR: FILL IN YOUR NAMES***
+ * @author CS 2420 course staff, Colby Miller, and Todd Sorensen 
  * @version ***FILL IN THE DATE***
  */
 public class LibraryTest {
@@ -96,6 +99,20 @@ public class LibraryTest {
 	// Student-supplied tests
 	// -------------------------------------------------------------------------
 
-	// TO DO: Add more unit tests HERE to completely and robustly check the Library
-	// class.
+	@Test
+	public void testSmallLibraryLookupPatron() {
+	    	assertTrue(smallLibrary.checkOut(9781843190004L, 123, 10, 1, 2024)); // Line 1 in Mushroom_Publishing.txt
+	    	assertTrue(smallLibrary.checkOut(9781843190479L, 123, 10, 1, 2024)); // Line 11
+	    	assertTrue(smallLibrary.checkOut(9781843193319L, 123, 10, 1, 2024)); // Line 23
+		ArrayList<LibraryBook> booksCheckedOut = smallLibrary.lookup(123);
+
+		assertNotNull(booksCheckedOut);
+		assertEquals(3, booksCheckedOut.size());
+		assertEquals(new Book(9781843190004L, "Caldecott", "Moyra", "Weapons of the Wolfhound"), booksCheckedOut.get(0));
+		assertEquals(new Book(9781843190479L, "Burns", "Anthony J D", "Demogorgon Rising"), booksCheckedOut.get(1));
+		assertEquals(new Book(9781843193319L, "Akers", "Alan Burt", "Transit to Scorpio"), booksCheckedOut.get(2));
+		assertEquals(123, booksCheckedOut.get(0).getPatron());
+		assertEquals(123, booksCheckedOut.get(1).getPatron());
+		assertEquals(123, booksCheckedOut.get(2).getPatron());
+	}
 }

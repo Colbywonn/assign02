@@ -69,19 +69,23 @@ public class Library {
 				try (Scanner lineIn = new Scanner(line)) {
 					lineIn.useDelimiter("\\t");
 
-					if (!lineIn.hasNextLong())
-						throw new ParseException("ISBN", lineNum);
+					if (!lineIn.hasNextLong()) {
+					    throw new ParseException("ISBN", lineNum);
+					}
 					long isbn = lineIn.nextLong();
 
-					if (!lineIn.hasNext())
-						throw new ParseException("Author", lineNum);
+					if (!lineIn.hasNext()) {
+					    throw new ParseException("Author", lineNum);
+					}
 					String author = lineIn.next();
 					String[] authorNames = author.split(", ");
-					if (authorNames.length != 2)
-						throw new ParseException("Author", lineNum);
+					if (authorNames.length != 2) {
+					    throw new ParseException("Author", lineNum);
+					}
 
-					if (!lineIn.hasNext())
-						throw new ParseException("Title", lineNum);
+					if (!lineIn.hasNext()) {
+					    throw new ParseException("Title", lineNum);
+					}
 					String title = lineIn.next();
 
 					toBeAdded.add(new LibraryBook(isbn, authorNames[0], authorNames[1], title));
@@ -110,9 +114,11 @@ public class Library {
 	 * @param isbn - ISBN of the book to be looked up
 	 */
 	public int lookup(long isbn) {
-		for (LibraryBook book : library)
-			if (book.getIsbn() == isbn)
-				return book.getPatron();
+		for (LibraryBook libraryBook : library) {
+		    if (libraryBook.getIsbn() == isbn) {
+		        return libraryBook.getPatron();
+		    }
+		}
 		return -1;
 	}
 
@@ -126,9 +132,11 @@ public class Library {
 	 */
 	public ArrayList<LibraryBook> lookup(int patron) {
 		ArrayList<LibraryBook> patronBooks = new ArrayList<>();
-		for (LibraryBook libraryBook : patronBooks)
-			if (libraryBook.getPatron() == patron)
-				patronBooks.add(libraryBook);
+		for (LibraryBook libraryBook : library) {
+		    if (libraryBook.getPatron() == patron) {
+		        patronBooks.add(libraryBook);
+		    }
+		}
 		return patronBooks;
 	}
 
@@ -146,11 +154,12 @@ public class Library {
 	 * @param year   - year when this book is due to be returned to the library
 	 */
 	public boolean checkOut(long isbn, int patron, int month, int day, int year) {
-		for (LibraryBook libraryBook : library)
-			if (libraryBook.getIsbn() == isbn && libraryBook.getPatron() == -1) {
-				libraryBook.checkout(patron, new GregorianCalendar(year, month, day));
-				return true;
-			}
+		for (LibraryBook libraryBook : library) {
+		    if (libraryBook.getIsbn() == isbn && libraryBook.getPatron() == -1) {
+		    	libraryBook.checkout(patron, new GregorianCalendar(year, month, day));
+		    	return true;
+		    }
+		}
 		return false;
 	}
 
@@ -163,14 +172,16 @@ public class Library {
 	 * book with the specified ISBN is not checked out, returns false. Otherwise,
 	 * returns true.
 	 *
+	 *
 	 * @param isbn - ISBN of the book to be given back to the library
 	 */
 	public boolean checkIn(long isbn) {
-		for (LibraryBook libraryBook : library)
-			if (libraryBook.getIsbn() == isbn && libraryBook.getPatron() != -1) {
-				libraryBook.checkIn();
-				return true;
-			}
+	    for (LibraryBook libraryBook : library) {
+		if (libraryBook.getIsbn() == isbn && libraryBook.getPatron() != -1) {
+			libraryBook.checkIn();
+			return true;
+		}
+	    }
 		return false;
 	}
 
@@ -186,8 +197,9 @@ public class Library {
 	 */
 	public boolean checkIn(int patron) {
 		ArrayList<LibraryBook> bookList = this.lookup(patron);
-		for (LibraryBook libraryBook : bookList)
-			libraryBook.checkIn();
+		for (LibraryBook libraryBook : bookList) {
+		    libraryBook.checkIn();
+		}
 
 		return false;
 	}
