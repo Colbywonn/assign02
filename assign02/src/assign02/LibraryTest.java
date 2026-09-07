@@ -115,4 +115,42 @@ public class LibraryTest {
 		assertEquals(123, booksCheckedOut.get(1).getPatron());
 		assertEquals(123, booksCheckedOut.get(2).getPatron());
 	}
+	
+	@Test
+	public void testCheckOutWhenIsbnDoesNotExist() {
+	    assertFalse(smallLibrary.checkOut(9780765326355L, 123, 9, 7, 2026));
+	}
+	
+	@Test
+	public void testCheckInCheckOut() {
+	    assertTrue(smallLibrary.checkOut(9781843190004L, 123, 10, 1, 2024));
+	    assertFalse(smallLibrary.checkOut(9781843190004L, 321, 10, 1, 2024));
+	    smallLibrary.checkIn(9781843190004L);
+	    assertTrue(smallLibrary.lookup(9781843190004L) == -1);
+	    assertTrue(smallLibrary.checkOut(9781843190004L, 123, 10, 1, 2024));
+	}
+	
+	@Test
+	public void testCheckOutNegativeOne() {
+	    assertTrue(smallLibrary.checkOut(9781843190004L, 123, 10, 1, 2024));
+	    assertFalse(smallLibrary.checkOut(9781843190004L, -1, 10, 15, 2024));
+	}
+	
+	@Test
+	public void testCheckInSingleBook() {
+	    assertTrue(smallLibrary.checkOut(9781843190004L, 123, 10, 1, 2024));
+	    assertTrue(smallLibrary.checkOut(9781843190479L, 123, 10, 1, 2024));
+	    smallLibrary.checkIn(9781843190004L);
+	    assertTrue(smallLibrary.lookup(9781843190004L) == -1);
+	    assertTrue(smallLibrary.lookup(9781843190479L) == 123); 
+	}
+	
+	@Test
+	public void testCheckInAllBooks() {
+	    assertTrue(smallLibrary.checkOut(9781843190004L, 123, 10, 1, 2024));
+	    assertTrue(smallLibrary.checkOut(9781843190479L, 123, 10, 1, 2024));
+	    smallLibrary.checkIn(123);
+	    assertTrue(smallLibrary.lookup(9781843190004L) == -1);
+	    assertTrue(smallLibrary.lookup(9781843190479L) == -1); 
+	}
 }
