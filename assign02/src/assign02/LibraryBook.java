@@ -26,7 +26,7 @@ public class LibraryBook extends Book {
 		dueDate = newDueDate;
 	}
 
-	public void checkin() {
+	public void checkIn() {
 		patron = -1;
 		dueDate = null;
 	}

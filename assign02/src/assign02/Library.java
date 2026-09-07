@@ -114,9 +114,10 @@ public class Library {
 	 * @param isbn - ISBN of the book to be looked up
 	 */
 	public int lookup(long isbn) {
-		// TODO: Replace return statement with code to accomplish the method contract
-		// above.
-		return 0;
+		for(LibraryBook book : library) {
+			if(book.getIsbn() == isbn) return book.getPatron();
+		}
+		return -1;
 	}
 
 	/**
@@ -172,10 +173,13 @@ public class Library {
 	 * @param isbn - ISBN of the book to be given back to the library
 	 */
 	public boolean checkIn(long isbn) {
-		// TODO: Replace return statement with code to accomplish the method contract
-		// above.
+			if (lookup(isbn) != -1) {
+				this.checkIn();
+				return true;
+			}
 		return false;
 	}
+
 
 	/**
 	 * Gives all book checked out by the specified patron back to the library by
@@ -188,8 +192,13 @@ public class Library {
 	 * @param patron - id of the patron returning all books to the library
 	 */
 	public boolean checkIn(int patron) {
-		// TODO: Replace return statement with code to accomplish the method contract
-		// above.
+		ArrayList<LibraryBook> bookList = this.lookup(patron);
+		for (LibraryBook libraryBook : bookList) {
+			libraryBook.checkIn();
+			
+		}
+		
+		
 		return false;
 	}
 }

@@ -1,12 +1,13 @@
 package assign02;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
- * Demonstrates how to use the non-generic LibraryBook and Library
- * classes (and does not contain tests).
- * 
+ * Demonstrates how to use the non-generic LibraryBook and Library classes (and
+ * does not contain tests).
+ *
  * @author CS 2420 course staff
  * @version September 3, 2026
  */
@@ -30,10 +31,11 @@ public class LibraryDemo {
 		// Check out algorithms book for patron with id 321, due back Dec 22.
 		textbookLibrary.checkOut(9780262033848L, 321, 11, 22, 2024);
 
-		for(long isbn : new long[] { 9780073383095L, 9780275967307L, 9780521820608L, 9780262033848L, 9780131103627L }) {
+		for (long isbn : new long[] { 9780073383095L, 9780275967307L, 9780521820608L, 9780262033848L,
+				9780131103627L }) {
 			System.out.print("Library book with ISBN " + isbn);
 			int patronId = textbookLibrary.lookup(isbn);
-			if(patronId == -1)
+			if (patronId == -1)
 				System.out.println(" is not checked out.");
 			else
 				System.out.println(" is checked out by patron with id " + patronId + ".");
@@ -58,19 +60,19 @@ public class LibraryDemo {
 
 	/**
 	 * Generate string for list of library books, each with due date.
-	 * 
+	 *
 	 * @param booksCheckedOut - list of library books "checked out"
 	 * @return textual representation of all library books in the list
 	 */
 	private static String booksCheckedOutToString(ArrayList<LibraryBook> booksCheckedOut) {
-		if(booksCheckedOut.size() == 0)
+		if (booksCheckedOut.size() == 0)
 			return "NONE";
 
 		String result = "";
-		for(LibraryBook book : booksCheckedOut) {
+		for (LibraryBook book : booksCheckedOut) {
 			GregorianCalendar dueDate = book.getDueDate();
-			result += book + " -- due back " + dueDate.get(GregorianCalendar.MONTH) + "/"
-					+ dueDate.get(GregorianCalendar.DAY_OF_MONTH) + "/" + dueDate.get(GregorianCalendar.YEAR) + "\n";
+			result += book + " -- due back " + dueDate.get(Calendar.MONTH) + "/" + dueDate.get(Calendar.DAY_OF_MONTH)
+					+ "/" + dueDate.get(Calendar.YEAR) + "\n";
 		}
 		return result;
 	}
