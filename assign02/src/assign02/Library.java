@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  * Represents a library, which is a collection of library books.
- * 
+ *
  * @author CS 2420 course staff and ***PROGRAMMING PAIR: FILL IN YOUR NAMES***
  * @version ***FILL IN THE DATE***
  */
@@ -20,13 +20,13 @@ public class Library {
 	 * Creates an empty library.
 	 */
 	public Library() {
-		this.library = new ArrayList<LibraryBook>();
+		this.library = new ArrayList<>();
 	}
 
 	/**
 	 * Adds the book, with the given ISBN, author, and title information, to this
 	 * library. Assumes there is no possibility of duplicate library books.
-	 * 
+	 *
 	 * @param isbn            - ISBN of the book to be added
 	 * @param authorSurname   - surname of the author of the book to be added
 	 * @param authorOtherName - other name of the author of the book to be added
@@ -39,7 +39,7 @@ public class Library {
 	/**
 	 * Adds a list of library books to the library. Assumes there is no possibility
 	 * of duplicate library books.
-	 * 
+	 *
 	 * @param list - list of library books to be added
 	 */
 	public void addAll(ArrayList<LibraryBook> list) {
@@ -50,15 +50,15 @@ public class Library {
 	 * Adds the books specified by an input file to the library. Assumes the input
 	 * files specifies one book per line with ISBN, author, and title separated by
 	 * tabs, and the author surname before a comma.
-	 * 
+	 *
 	 * If file does not exist or a formatting rule is violated, prints an error
 	 * message and does not change the library.
-	 * 
+	 *
 	 * @param filename - name of the file containing information for the books to be
 	 *                 added
 	 */
 	public void addAll(String filename) {
-		ArrayList<LibraryBook> toBeAdded = new ArrayList<LibraryBook>();
+		ArrayList<LibraryBook> toBeAdded = new ArrayList<>();
 
 		try (Scanner fileIn = new Scanner(new File(filename))) {
 			int lineNum = 1;
@@ -69,23 +69,19 @@ public class Library {
 				try (Scanner lineIn = new Scanner(line)) {
 					lineIn.useDelimiter("\\t");
 
-					if (!lineIn.hasNextLong()) {
+					if (!lineIn.hasNextLong())
 						throw new ParseException("ISBN", lineNum);
-					}
 					long isbn = lineIn.nextLong();
 
-					if (!lineIn.hasNext()) {
+					if (!lineIn.hasNext())
 						throw new ParseException("Author", lineNum);
-					}
 					String author = lineIn.next();
 					String[] authorNames = author.split(", ");
-					if (authorNames.length != 2) {
+					if (authorNames.length != 2)
 						throw new ParseException("Author", lineNum);
-					}
 
-					if (!lineIn.hasNext()) {
+					if (!lineIn.hasNext())
 						throw new ParseException("Title", lineNum);
-					}
 					String title = lineIn.next();
 
 					toBeAdded.add(new LibraryBook(isbn, authorNames[0], authorNames[1], title));
@@ -110,13 +106,13 @@ public class Library {
 	 * checked out of the library. If there is no such patron, because no book with
 	 * the specified ISBN is in the library or the library book is not checked out,
 	 * returns -1.
-	 * 
+	 *
 	 * @param isbn - ISBN of the book to be looked up
 	 */
 	public int lookup(long isbn) {
-		for(LibraryBook book : library) {
-			if(book.getIsbn() == isbn) return book.getPatron();
-		}
+		for (LibraryBook book : library)
+			if (book.getIsbn() == isbn)
+				return book.getPatron();
 		return -1;
 	}
 
@@ -124,17 +120,15 @@ public class Library {
 	 * Gets the list of library books checked out to the specified patron. If the
 	 * patron does not exist or has no books checked out of the library, returns an
 	 * empty list.
-	 * 
+	 *
 	 * @param patron - id of patron whose list of checked out books is being
 	 *               accessed
 	 */
 	public ArrayList<LibraryBook> lookup(int patron) {
 		ArrayList<LibraryBook> patronBooks = new ArrayList<>();
-		for (LibraryBook libraryBook : patronBooks) {
-			if (libraryBook.getPatron() == patron) {
+		for (LibraryBook libraryBook : patronBooks)
+			if (libraryBook.getPatron() == patron)
 				patronBooks.add(libraryBook);
-			}
-		}
 		return patronBooks;
 	}
 
@@ -143,7 +137,7 @@ public class Library {
 	 * patron and due date. If no book with the specified ISBN is in the library,
 	 * returns false. If the book with the specified ISBN is already checked out,
 	 * returns false. Otherwise, returns true.
-	 * 
+	 *
 	 * @param isbn   - ISBN of the library book to be checked out
 	 * @param patron - id of the patron who checking this book out of the library
 	 * @param month  - month (as number) when this book is due to be returned to the
@@ -152,12 +146,11 @@ public class Library {
 	 * @param year   - year when this book is due to be returned to the library
 	 */
 	public boolean checkOut(long isbn, int patron, int month, int day, int year) {
-		for (LibraryBook libraryBook : library) {
+		for (LibraryBook libraryBook : library)
 			if (libraryBook.getIsbn() == isbn && libraryBook.getPatron() == -1) {
 				libraryBook.checkout(patron, new GregorianCalendar(year, month, day));
 				return true;
 			}
-		}
 		return false;
 	}
 
@@ -165,21 +158,21 @@ public class Library {
 	 * Gives the book with the specified ISBN back to the library by setting the
 	 * patron and due date to their default values. (I.e., returns the books, checks
 	 * the books back into the library)
-	 * 
+	 *
 	 * If no book with the specified ISBN is in the library, returns false. If the
 	 * book with the specified ISBN is not checked out, returns false. Otherwise,
 	 * returns true.
-	 * 
+	 *
 	 * @param isbn - ISBN of the book to be given back to the library
 	 */
 	public boolean checkIn(long isbn) {
-			if (lookup(isbn) != -1) {
-				this.checkIn();
+		for (LibraryBook libraryBook : library)
+			if (libraryBook.getIsbn() == isbn && libraryBook.getPatron() != -1) {
+				libraryBook.checkIn();
 				return true;
 			}
 		return false;
 	}
-
 
 	/**
 	 * Gives all book checked out by the specified patron back to the library by
@@ -188,17 +181,14 @@ public class Library {
 	 *
 	 * If no library books are checked out by the patron, returns false; Otherwise,
 	 * returns true.
-	 * 
+	 *
 	 * @param patron - id of the patron returning all books to the library
 	 */
 	public boolean checkIn(int patron) {
 		ArrayList<LibraryBook> bookList = this.lookup(patron);
-		for (LibraryBook libraryBook : bookList) {
+		for (LibraryBook libraryBook : bookList)
 			libraryBook.checkIn();
-			
-		}
-		
-		
+
 		return false;
 	}
 }
