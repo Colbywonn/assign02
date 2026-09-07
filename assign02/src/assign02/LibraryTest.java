@@ -153,4 +153,6 @@ public class LibraryTest {
 	    assertTrue(smallLibrary.lookup(9781843190004L) == -1);
 	    assertTrue(smallLibrary.lookup(9781843190479L) == -1); 
 	}
+	
+	//TODO: Write method for handling checkin(int patron) edge cases.
 }

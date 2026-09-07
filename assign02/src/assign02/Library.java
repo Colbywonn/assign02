@@ -197,10 +197,12 @@ public class Library {
 	 */
 	public boolean checkIn(int patron) {
 		ArrayList<LibraryBook> bookList = this.lookup(patron);
+		if(bookList.size() == 0) {
+		    return false;
+		}
 		for (LibraryBook libraryBook : bookList) {
 		    libraryBook.checkIn();
 		}
-
-		return false;
+		return true;
 	}
 }
