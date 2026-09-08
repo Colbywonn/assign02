@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -205,4 +207,88 @@ public class LibraryGeneric<Type> {
 		}
 		return true;
 	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * Performs a SELECTION SORT on a given list of library books.
+	 * 
+	 * 1. Finds the smallest item in the list. 
+	 * 2. Swaps the smallest item with the first item in the list. 
+	 * 3. Reconsiders the list to be the remaining unsorted portion (second item to Nth item) and repeats steps 1, 2, and 3.
+	 *
+	 * @param list - list of library books to be sorted
+	 * @param cmp - Comparator defining how to compare library books
+	 */
+	private static <InnerType> void sort(List<LibraryBookGeneric<InnerType>> list, Comparator<LibraryBookGeneric<InnerType>> cmp) {
+	   for(int i = 0; i < list.size() - 1; i++) {
+	      int j, minIndex;
+	      for(j = i + 1, minIndex = i; j < list.size(); j++) {
+		if(cmp.compare(list.get(j), list.get(minIndex)) < 0) {
+		    minIndex = j;
+		 }
+	      }
+	      LibraryBookGeneric<InnerType> temp = list.get(i);
+	      list.set(i, list.get(minIndex));
+	      list.set(minIndex, temp);
+	   }
+	}
+	
+	/**
+	 * Gets a list of books in this library sorted by ISBN, smallest to largest. 
+	 * If the library is empty, returns an empty list.
+	 * 
+	 * @return list of all library books sorted by ISBN
+	 */
+	public List<LibraryBookGeneric<Type>> getListSortedByIsbn() {
+	   List<LibraryBookGeneric<Type>> libraryCopy = new ArrayList<LibraryBookGeneric<Type>>();
+	   libraryCopy.addAll(this.library);
+
+	   OrderByIsbn<Type> comparator = new OrderByIsbn<Type>();
+	   sort(libraryCopy, comparator);
+
+	   return libraryCopy;
+	}
+	
+	/**
+	 * Gets a list of books in this library sorted by author surname, lexicographically. 
+	 * For books with the same author surname, break ties using book titles. 
+	 * If the library is empty, returns an empty list.
+	 * 
+	 * @return list of all library books sorted by author surname
+	 */
+	public List<LibraryBookGeneric<Type>> getListSortedByAuthor(){
+	    List<LibraryBookGeneric<Type>> libraryCopy = new ArrayList<LibraryBookGeneric<Type>>();
+	    libraryCopy.addAll(this.library);
+	    
+		   OrderByAuthor<Type> comparator = new OrderByAuthor<Type>();
+		   sort(libraryCopy, comparator);
+
+		   return libraryCopy;
+		}
+	
+	/**
+	 * Gets the list of books in this library with a due date older than the input date. 
+	 * The list is sorted by date, oldest to most recent.
+	 * If no library books are overdue, returns an empty list.
+	 * 
+	 * @param month - month (as number) for the input date
+	 * @param day - day for the input date
+	 * @param year - year for the input date
+	 * @return list of all library books that are overdue, sorted by due date
+	 */
+	public List<LibraryBookGeneric<Type>> getOverdueList(int month, int day, int year){
+	    GregorianCalendar dueDate = new GregorianCalendar(month, day, year); 
+	    List<LibraryBookGeneric<Type>> libraryCopy = new ArrayList<LibraryBookGeneric<Type>>();
+	    libraryCopy.addAll(this.library);
+	    OrderByDueDate<Type> comparator = new OrderByDueDate<Type>();
+		   sort(libraryCopy, comparator);
+		   libraryCopy.removeIf(book -> book.getDueDate().compareTo(dueDate) < 0);
+		   return libraryCopy;
+		}
+	
+	
 }
