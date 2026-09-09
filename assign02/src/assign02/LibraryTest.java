@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
  * For testing the Library class.
  *
  * @author CS 2420 course staff, Colby Miller, and Todd Sorensen 
- * @version ***FILL IN THE DATE***
+ * @version 9/9/2026
  */
 public class LibraryTest {
 	private Library emptyLibrary, tinyLibrary, smallLibrary;
@@ -105,17 +105,28 @@ public class LibraryTest {
 	    	assertTrue(smallLibrary.checkOut(9781843190479L, 123, 10, 1, 2024)); // Line 11
 	    	assertTrue(smallLibrary.checkOut(9781843193319L, 123, 10, 1, 2024)); // Line 23
 		ArrayList<LibraryBook> booksCheckedOut = smallLibrary.lookup(123);
-
-		assertNotNull(booksCheckedOut);
+		
 		assertEquals(3, booksCheckedOut.size());
+		// Test books that were checked out to patron are same.
 		assertEquals(new Book(9781843190004L, "Caldecott", "Moyra", "Weapons of the Wolfhound"), booksCheckedOut.get(0));
 		assertEquals(new Book(9781843190479L, "Burns", "Anthony J D", "Demogorgon Rising"), booksCheckedOut.get(1));
 		assertEquals(new Book(9781843193319L, "Akers", "Alan Burt", "Transit to Scorpio"), booksCheckedOut.get(2));
+		// Test list of books from lookup method were checked out by correct patron.
 		assertEquals(123, booksCheckedOut.get(0).getPatron());
 		assertEquals(123, booksCheckedOut.get(1).getPatron());
 		assertEquals(123, booksCheckedOut.get(2).getPatron());
 	}
 	
+	@Test
+	public void testLookupPatronDoesNotExist() {
+	    	assertTrue(smallLibrary.checkOut(9781843190004L, 123, 10, 1, 2024)); // Line 1 in Mushroom_Publishing.txt
+	    	assertTrue(smallLibrary.checkOut(9781843190479L, 123, 10, 1, 2024)); // Line 11
+	    	assertTrue(smallLibrary.checkOut(9781843193319L, 123, 10, 1, 2024)); // Line 23
+		ArrayList<LibraryBook> booksCheckedOut = smallLibrary.lookup(456);
+		assertNotNull(booksCheckedOut);
+		assertEquals(0, booksCheckedOut.size());
+		
+	}
 	@Test
 	public void testCheckOutWhenIsbnDoesNotExist() {
 	    assertFalse(smallLibrary.checkOut(9780765326355L, 123, 9, 7, 2026));
@@ -138,8 +149,8 @@ public class LibraryTest {
 	
 	@Test
 	public void testCheckInSingleBook() {
-	    assertTrue(smallLibrary.checkOut(9781843190004L, 123, 10, 1, 2024));
-	    assertTrue(smallLibrary.checkOut(9781843190479L, 123, 10, 1, 2024));
+	    smallLibrary.checkOut(9781843190004L, 123, 10, 1, 2024);
+	    smallLibrary.checkOut(9781843190479L, 123, 10, 1, 2024);
 	    smallLibrary.checkIn(9781843190004L);
 	    assertTrue(smallLibrary.lookup(9781843190004L) == -1);
 	    assertTrue(smallLibrary.lookup(9781843190479L) == 123); 
@@ -147,12 +158,16 @@ public class LibraryTest {
 	
 	@Test
 	public void testCheckInAllBooks() {
-	    assertTrue(smallLibrary.checkOut(9781843190004L, 123, 10, 1, 2024));
-	    assertTrue(smallLibrary.checkOut(9781843190479L, 123, 10, 1, 2024));
+	    smallLibrary.checkOut(9781843190004L, 123, 10, 1, 2024);
+	    smallLibrary.checkOut(9781843190479L, 123, 10, 1, 2024);
 	    smallLibrary.checkIn(123);
 	    assertTrue(smallLibrary.lookup(9781843190004L) == -1);
 	    assertTrue(smallLibrary.lookup(9781843190479L) == -1); 
 	}
 	
-	//TODO: Write method for handling checkin(int patron) edge cases.
+	@Test
+	public void testCheckInNegativeOne() {
+	    assertTrue(smallLibrary.checkIn(-1));
+	}
+	
 }

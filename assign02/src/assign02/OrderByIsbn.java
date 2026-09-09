@@ -16,11 +16,14 @@ public class OrderByIsbn<Type> implements Comparator<LibraryBookGeneric<Type>> {
 	 *         integer if the first library book's ISBN is smaller, 0 if the ISBNs
 	 *         are the same
 	 */
+	@Override
 	public int compare(LibraryBookGeneric<Type> firstBook, LibraryBookGeneric<Type> secondBook) {
-		if (firstBook.getIsbn() < secondBook.getIsbn())
-			return -1;
-		if (firstBook.getIsbn() > secondBook.getIsbn())
-			return 1;
+		if (firstBook.getIsbn() < secondBook.getIsbn()) {
+		    return -1;
+		}
+		if (firstBook.getIsbn() > secondBook.getIsbn()) {
+		    return 1;
+		}
 		return 0;
 	}
 }

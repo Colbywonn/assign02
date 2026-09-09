@@ -20,7 +20,7 @@ public class LibraryBook extends Book {
 	public GregorianCalendar getDueDate() {
 		return dueDate;
 	}
-
+	
 	public void checkout(int newPatron, GregorianCalendar newDueDate) {
 		patron = newPatron;
 		dueDate = newDueDate;
