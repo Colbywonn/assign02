@@ -179,7 +179,7 @@ public class LibraryGeneric<Type> {
 	 */
 	public boolean checkIn(long isbn) {
 	    for (LibraryBookGeneric<Type> libraryBook : library) {
-		if (libraryBook.getIsbn() == isbn && libraryBook.getPatron() == null) {
+		if (libraryBook.getIsbn() == isbn && libraryBook.getPatron() != null) {
 			libraryBook.checkIn();
 			return true;
 		}

@@ -167,7 +167,7 @@ public class LibraryTest {
 	
 	@Test
 	public void testCheckInNegativeOne() {
-	    assertTrue(smallLibrary.checkIn(-1));
+	    assertFalse(smallLibrary.checkIn(-1));
 	}
 	
 }

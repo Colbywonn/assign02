@@ -133,7 +133,7 @@ public class Library {
 	public ArrayList<LibraryBook> lookup(int patron) {
 		ArrayList<LibraryBook> patronBooks = new ArrayList<>();
 		for (LibraryBook libraryBook : library) {
-		    if (libraryBook.getPatron() == patron) {
+		    if (patron != -1 && libraryBook.getPatron() == patron) {
 		        patronBooks.add(libraryBook);
 		    }
 		}

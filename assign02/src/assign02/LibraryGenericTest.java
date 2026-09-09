@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -112,7 +113,7 @@ public class LibraryGenericTest {
 
 	@Test
 	public void testEmptyLookupISBN() {
-		assertEquals(-1, emptyLibrary.lookup(12L));
+		assertEquals(null, emptyLibrary.lookup(12L));
 	}
 
 	@Test
@@ -160,16 +161,15 @@ public class LibraryGenericTest {
 	@Test
 	public void testPatronByPhoneLibraryLookupPatron() {
 	    	PhoneNumber patron = new PhoneNumber("801.555.1234");
-	    	assertTrue(patronByPhoneLibrary.checkOut(9781843190004L, patron, 10, 1, 2024)); // Line 1 in Mushroom_Publishing.txt
-	    	assertTrue(patronByPhoneLibrary.checkOut(9781843190479L, patron, 10, 1, 2024)); // Line 11
-	    	assertTrue(patronByPhoneLibrary.checkOut(9781843193319L, patron, 10, 1, 2024)); // Line 23
+	    	assertTrue(patronByPhoneLibrary.checkOut(9780374292799L, patron, 10, 1, 2024)); 
+	    	assertTrue(patronByPhoneLibrary.checkOut(9780330351690L, patron, 10, 1, 2024)); 
+	    	assertTrue(patronByPhoneLibrary.checkOut(9780446580342L, patron, 10, 1, 2024)); 
 		ArrayList<LibraryBookGeneric<PhoneNumber>> booksCheckedOut = patronByPhoneLibrary.lookup(patron);
 		
 		assertEquals(3, booksCheckedOut.size());
 		// Test books that were checked out to patron are same.
-		assertEquals(new Book(9781843190004L, "Caldecott", "Moyra", "Weapons of the Wolfhound"), booksCheckedOut.get(0));
-		assertEquals(new Book(9781843190479L, "Burns", "Anthony J D", "Demogorgon Rising"), booksCheckedOut.get(1));
-		assertEquals(new Book(9781843193319L, "Akers", "Alan Burt", "Transit to Scorpio"), booksCheckedOut.get(2));
+		assertEquals(new Book(9780374292799L, "Friedman", "Thomas L.", "The World is Flat"), booksCheckedOut.get(0));
+		assertEquals(new Book(9780330351690L, "Krakauer", "Jon", "Into the Wild"), booksCheckedOut.get(1));
 		// Test list of books from lookup method were checked out by correct patron.
 		assertEquals(patron, booksCheckedOut.get(0).getPatron());
 		assertEquals(patron, booksCheckedOut.get(1).getPatron());
@@ -179,9 +179,9 @@ public class LibraryGenericTest {
 	@Test
 	public void testLookupPatronDoesNotExist() {
 	    	String patron = "Jane Doe";
-	    	assertTrue(patronByNameLibrary.checkOut(9781843190004L, patron, 10, 1, 2024)); // Line 1 in Mushroom_Publishing.txt
-	    	assertTrue(patronByNameLibrary.checkOut(9781843190479L, patron, 10, 1, 2024)); // Line 11
-	    	assertTrue(patronByNameLibrary.checkOut(9781843193319L, patron, 10, 1, 2024)); // Line 23
+	    	assertTrue(patronByNameLibrary.checkOut(9780374292799L, patron, 10, 1, 2024));
+	    	assertTrue(patronByNameLibrary.checkOut(9780330351690L, patron, 10, 1, 2024)); 
+	    	assertTrue(patronByNameLibrary.checkOut(9780446580342L, patron, 10, 1, 2024));
 		ArrayList<LibraryBookGeneric<String>> booksCheckedOut = patronByNameLibrary.lookup("Jeff");
 		assertNotNull(booksCheckedOut);
 		assertEquals(0, booksCheckedOut.size());
@@ -197,43 +197,95 @@ public class LibraryGenericTest {
 	public void testCheckInCheckOut() {
 	    PhoneNumber patron = new PhoneNumber("385-385-3855");
 	    PhoneNumber patron2 = new PhoneNumber("801-801-8011");
-	    assertTrue(patronByPhoneLibrary.checkOut(9781843190004L, patron, 10, 1, 2024));
-	    assertFalse(patronByPhoneLibrary.checkOut(9781843190004L, patron2, 10, 1, 2024));
-	    patronByPhoneLibrary.checkIn(9781843190004L);
-	    assertTrue(patronByPhoneLibrary.lookup(9781843190004L) == null);
-	    assertTrue(patronByPhoneLibrary.checkOut(9781843190004L, patron, 10, 1, 2024));
+	    assertTrue(patronByPhoneLibrary.checkOut(9780374292799L, patron, 10, 1, 2024));
+	    assertFalse(patronByPhoneLibrary.checkOut(9780374292799L, patron2, 10, 1, 2024));
+	    patronByPhoneLibrary.checkIn(9780374292799L);
+	    assertTrue(patronByPhoneLibrary.lookup(9780374292799L) == null);
+	    assertTrue(patronByPhoneLibrary.checkOut(9780374292799L, patron, 10, 1, 2024));
 	}
 	
 	@Test
 	public void testCheckOutNull() {
-	    assertTrue(patronByNameLibrary.checkOut(9781843190004L, "Eleven from Stranger Things", 10, 1, 2024));
-	    assertFalse(patronByNameLibrary.checkOut(9781843190004L, null, 10, 15, 2024));
+	    assertTrue(patronByNameLibrary.checkOut(9780374292799L, "Eleven from Stranger Things", 10, 1, 2024));
+	    assertFalse(patronByNameLibrary.checkOut(9780374292799L, null, 10, 15, 2024));
 	}
 	
 	@Test
 	public void testCheckInSingleBook() {
 	    PhoneNumber patron = new PhoneNumber("385-385-3855");
-	    patronByPhoneLibrary.checkOut(9781843190004L, patron, 10, 1, 2024);
-	    patronByPhoneLibrary.checkOut(9781843190479L, patron, 10, 1, 2024);
-	    patronByPhoneLibrary.checkIn(9781843190004L);
-	    assertTrue(patronByPhoneLibrary.lookup(9781843190004L) == null);
-	    assertTrue(patronByPhoneLibrary.lookup(9781843190479L) == patron); 
+	    patronByPhoneLibrary.checkOut(9780374292799L, patron, 10, 1, 2024);
+	    patronByPhoneLibrary.checkOut(9780330351690L, patron, 10, 1, 2024);
+	    patronByPhoneLibrary.checkIn(9780330351690L);
+	    assertTrue(patronByPhoneLibrary.lookup(9780330351690L) == null);
+	    assertTrue(patronByPhoneLibrary.lookup(9780374292799L) == patron); 
 	}
 	
 	@Test
 	public void testCheckInAllBooks() {
 	    String patron = "Gandalf the Grey";
-	    patronByNameLibrary.checkOut(9781843190004L, patron, 10, 1, 2024);
-	    patronByNameLibrary.checkOut(9781843190479L, patron, 10, 1, 2024);
+	    patronByNameLibrary.checkOut(9780374292799L, patron, 10, 1, 2024);
+	    patronByNameLibrary.checkOut(9780330351690L, patron, 10, 1, 2024);
 	    patronByNameLibrary.checkIn(patron);
-	    assertTrue(patronByNameLibrary.lookup(9781843190004L) == null);
-	    assertTrue(patronByNameLibrary.lookup(9781843190479L) == null); 
+	    assertTrue(patronByNameLibrary.lookup(9780374292799L) == null);
+	    assertTrue(patronByNameLibrary.lookup(9780330351690L) == null); 
 	}
 	
 	@Test
-	public void testCheckInNegativeOne() {
-	    assertTrue(patronByNameLibrary.checkIn(null));
+	public void testCheckInNull() {
+	    assertFalse(patronByNameLibrary.checkIn(null));
 	}
 	
-	//TODO: Sorting stuff, too.
+	@Test
+	public void testSortedByIsbnEmpty() {
+	    List<LibraryBookGeneric<Integer>> booksCheckedOut = emptyLibrary.getListSortedByIsbn();
+	    assertNotNull(booksCheckedOut);
+	    assertEquals(0, booksCheckedOut.size());
+	}
+	
+	@Test
+	public void testSortedByAuthorEmpty() {
+	    List<LibraryBookGeneric<Integer>> booksCheckedOut = emptyLibrary.getListSortedByAuthor();
+	    assertNotNull(booksCheckedOut);
+	    assertEquals(0, booksCheckedOut.size());
+	}
+	
+	@Test
+	public void testOverdueListEmpty() {
+	    List<LibraryBookGeneric<Integer>> booksCheckedOut = emptyLibrary.getOverdueList(10, 2, 2024);
+	    assertNotNull(booksCheckedOut);
+	    assertEquals(0, booksCheckedOut.size());
+	}
+	
+	@Test
+	public void testSortedByIsbn() {
+	    List<LibraryBookGeneric<String>> sortedBooks = patronByNameLibrary.getListSortedByIsbn();
+	    assertEquals(3, sortedBooks.size());
+	    
+	    assertEquals(new Book(9780330351690L, "Krakauer", "Jon", "Into the Wild"), sortedBooks.get(0));
+	    assertEquals(new Book(9780374292799L, "Friedman", "Thomas L.", "The World is Flat"), sortedBooks.get(1));
+	    assertEquals(new Book(9780446580342L, "Baldacci", "David", "Simple Genius"), sortedBooks.get(2));
+	    
+	}
+	
+	@Test
+	public void testSortedByAuthor() {
+	    List<LibraryBookGeneric<PhoneNumber>> sortedBooks = patronByPhoneLibrary.getListSortedByAuthor();
+	    assertEquals(3, sortedBooks.size());
+	    
+	    assertEquals(new Book(9780446580342L, "Baldacci", "David", "Simple Genius"), sortedBooks.get(0));
+	    assertEquals(new Book(9780374292799L, "Friedman", "Thomas L.", "The World is Flat"), sortedBooks.get(1));
+	    assertEquals(new Book(9780330351690L, "Krakauer", "Jon", "Into the Wild"), sortedBooks.get(2));
+	}
+	
+	@Test
+	public void testSortedByAuthorSameLastName() {
+	    patronByNameLibrary.add(9780446580362L, "Friedman", "Jack", "Something Something");
+	    List<LibraryBookGeneric<String>> sortedBooks = patronByNameLibrary.getListSortedByAuthor();
+	    assertEquals(4, sortedBooks.size());
+	    
+	    assertEquals(new Book(9780446580342L, "Baldacci", "David", "Simple Genius"), sortedBooks.get(0));
+	    assertEquals(new Book(9780446580362L, "Friedman", "Jack", "Something Something"), sortedBooks.get(1));
+	    assertEquals(new Book(9780374292799L, "Friedman", "Thomas L.", "The World is Flat"), sortedBooks.get(2));
+	    assertEquals(new Book(9780330351690L, "Krakauer", "Jon", "Into the Wild"), sortedBooks.get(3));
+	}
 }
