@@ -208,11 +208,6 @@ public class LibraryGeneric<Type> {
 		return true;
 	}
 	
-	
-	
-	
-	
-	
 	/**
 	 * Performs a SELECTION SORT on a given list of library books.
 	 * 
@@ -288,7 +283,5 @@ public class LibraryGeneric<Type> {
 		   sort(libraryCopy, comparator);
 		   libraryCopy.removeIf(book -> book.getDueDate().compareTo(dueDate) < 0);
 		   return libraryCopy;
-		}
-	
-	
+		}	
 }

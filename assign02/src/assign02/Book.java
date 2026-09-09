@@ -6,8 +6,8 @@ import java.util.Objects;
  * Represents a book, in which the ISBN (unique), author, and title information
  * cannot change once the book is created.
  *
- * @author CS 2420 course staff and ***PROGRAMMING PAIR: FILL IN YOUR NAMES***
- * @version ***FILL IN THE DATE***
+ * @author CS 2420 course staff and Colby Miller & Todd Sorensen
+ * @version September 7, 2026
  */
 public class Book {
 	private long isbn;

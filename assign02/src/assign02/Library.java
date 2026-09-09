@@ -10,8 +10,8 @@ import java.util.Scanner;
 /**
  * Represents a library, which is a collection of library books.
  *
- * @author CS 2420 course staff and ***PROGRAMMING PAIR: FILL IN YOUR NAMES***
- * @version ***FILL IN THE DATE***
+ * @author CS 2420 course staff and Colby Miller & Todd Sorensen
+ * @version September 7, 2026
  */
 public class Library {
 	private ArrayList<LibraryBook> library;
