@@ -6,63 +6,61 @@ import java.util.Random;
  * Experiment to measure the running time for the lookup method in libraries of
  * various sizes.
  *
- * @author CS 2420 course staff and Colby Miller & Todd Sorensen 
+ * @author CS 2420 course staff and Colby Miller & Todd Sorensen
  * @version September 9, 2026
  */
 public class LibraryLookupTimingExperiment extends TimingExperiment {
-	private static String problemSizeDescription = "librarySize";
-	private static int problemSizeMin = 10000;
-	private static int problemSizeCount = 25;
-	private static int problemSizeStep = 10000;
-	private static int experimentIterationCount = 100;
-	
-	private Library randomLibrary;
-	private long randomIsbn;
-	private static final Random rng = new Random();
+    private static String problemSizeDescription = "librarySize";
+    private static int problemSizeMin = 10000;
+    private static int problemSizeCount = 25;
+    private static int problemSizeStep = 10000;
+    private static int experimentIterationCount = 100;
 
-	public static void main(String[] args) {
-		TimingExperiment timingExperiment = new LibraryLookupTimingExperiment();
+    private Library randomLibrary;
+    private long randomIsbn;
+    private static final Random rng = new Random();
 
-		System.out.println("\n---Computing timing results---\n");
-		timingExperiment.printResults();
-	}
+    public static void main(String[] args) {
+	TimingExperiment timingExperiment = new LibraryLookupTimingExperiment();
 
-	public LibraryLookupTimingExperiment() {
-		super(problemSizeDescription, problemSizeMin, problemSizeCount, problemSizeStep, experimentIterationCount);
-	}
+	System.out.println("\n---Computing timing results---\n");
+	timingExperiment.printResults();
+    }
 
-	/**
-	 * Populates the library with random library books.
-	 * 
-	 * @param problemSize - the size of the library
-	 */
-	@Override
-	protected void setupExperiment(int problemSize) {
-		randomLibrary = new Library();
-		for(int i = 0; i < problemSize; i++) {
-		    randomLibrary.add(generateIsbn(), "Surname", "Other name", "Title");
-		}
-		randomIsbn = generateIsbn();
-	}
+    public LibraryLookupTimingExperiment() {
+	super(problemSizeDescription, problemSizeMin, problemSizeCount, problemSizeStep, experimentIterationCount);
+    }
 
-	/**
-	 * Runs the lookup method for the library.
-	 */
-	@Override
-	protected void runComputation() {
-		randomLibrary.lookup(randomIsbn);
-	}
+    /**
+     * Populates the library with random library books.
+     *
+     * @param problemSize - the size of the library
+     */
+    @Override
+    protected void setupExperiment(int problemSize) {
+	randomLibrary = new Library();
+	for (int i = 0; i < problemSize; i++)
+	    randomLibrary.add(generateIsbn(), "Surname", "Other name", "Title");
+	randomIsbn = generateIsbn();
+    }
 
-	/**
-	 * Generates a random ISBN (a long with 13 digits).
-	 *
-	 * @return randomly-generated ISBN
-	 */
-	private long generateIsbn() {
-		String isbn = "";
-		for(int j = 0; j < 13; j++) {
-		    isbn += rng.nextInt(10);
-		}
-		return Long.parseLong(isbn);
-	}
+    /**
+     * Runs the lookup method for the library.
+     */
+    @Override
+    protected void runComputation() {
+	randomLibrary.lookup(randomIsbn);
+    }
+
+    /**
+     * Generates a random ISBN (a long with 13 digits).
+     *
+     * @return randomly-generated ISBN
+     */
+    private long generateIsbn() {
+	String isbn = "";
+	for (int j = 0; j < 13; j++)
+	    isbn += rng.nextInt(10);
+	return Long.parseLong(isbn);
+    }
 }

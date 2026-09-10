@@ -3,11 +3,11 @@ package assign02;
 import java.util.GregorianCalendar;
 
 /**
- * Represents a library book, an extension of book, which adds fields for
+ * Represents a library book, an extension of Book, which adds fields for
  * patrons and due dates.
  *
- * @author Colby Miller & Todd Sorensen
- * @version September 7, 2026
+ * @author Colby Miller, and Todd Sorensen
+ * @version September 10, 2026
  */
 public class LibraryBook extends Book {
 
@@ -15,13 +15,13 @@ public class LibraryBook extends Book {
     private GregorianCalendar dueDate;
 
     /**
-     * Constructor for LibraryBook. Supers the ISBN, author surname, author first name and title from the Book class.
-     * Adds parameters patron and DueDate which represent who currently has the book and when it is due
-     * 
-     * @param isbn
-     * @param authorSurname
-     * @param authorOtherName
-     * @param title
+     * Constructs a LibraryBook using the given ISBN, author names, and book title.
+     * Sets the patron ID to -1 and due date to null.
+     *
+     * @param isbn            - ISBN number of the book
+     * @param authorSurname   - last name of the author of the book
+     * @param authorOtherName - given name of the author of the book
+     * @param title           - title of the book
      */
     public LibraryBook(long isbn, String authorSurname, String authorOtherName, String title) {
 	super(isbn, authorSurname, authorOtherName, title);
@@ -30,9 +30,10 @@ public class LibraryBook extends Book {
     }
 
     /**
-     * A method that returns the current patron of the book. -1 is a book in the library.
-     * 
-     * @return patron - an int representing the ID number of a patron.
+     * A method that returns the current patron of the book. -1 is a book in the
+     * library.
+     *
+     * @return the ID number of a patron
      */
     public int getPatron() {
 	return patron;
@@ -40,9 +41,8 @@ public class LibraryBook extends Book {
 
     /**
      * A method that returns the due date of a checked out book.
-     * 
-     * @return dueDate - a GregorianCalendar object representing the due date of the
-     *         book.
+     *
+     * @return GregorianCalendar object representing the due date of the book
      */
     public GregorianCalendar getDueDate() {
 	return dueDate;
@@ -51,9 +51,9 @@ public class LibraryBook extends Book {
     /**
      * Updates the contents of the LibraryBook object by checking out the book to a
      * new patron.
-     * 
-     * @param newPatron  - The patron that is checking out the book
-     * @param newDueDate - The date that the book must be returned by.
+     *
+     * @param newPatron  - the patron that is checking out the book
+     * @param newDueDate - the date that the book must be returned by
      */
     public void checkout(int newPatron, GregorianCalendar newDueDate) {
 	patron = newPatron;
