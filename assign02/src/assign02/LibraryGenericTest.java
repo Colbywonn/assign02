@@ -288,4 +288,33 @@ public class LibraryGenericTest {
 	    assertEquals(new Book(9780374292799L, "Friedman", "Thomas L.", "The World is Flat"), sortedBooks.get(2));
 	    assertEquals(new Book(9780330351690L, "Krakauer", "Jon", "Into the Wild"), sortedBooks.get(3));
 	}
+
+	@Test
+	public void testOverdueList() {
+	    String patron = "George Washington";
+	    patronByNameLibrary.checkOut(9780330351690L, patron, 12, 25, 1776);
+	    patronByNameLibrary.checkOut(9780374292799L, patron, 12, 25, 1776);
+	    List<LibraryBookGeneric<String>> overdueBooks = patronByNameLibrary.getOverdueList(12, 27, 1776);
+	    assertNotNull(overdueBooks);
+	    assertEquals(2, overdueBooks.size());
+	}
+	
+	@Test
+	public void testEverythingCheckedInOverdueList() {
+	    List<LibraryBookGeneric<String>> overdueBooks = patronByNameLibrary.getOverdueList(12, 27, 1776);
+	    assertNotNull(overdueBooks);
+	    assertEquals(0, overdueBooks.size());
+	}
+	
+	@Test
+	public void testCheckedOutNotOverdueList() {
+	    String patron = "George Washington";
+	    patronByNameLibrary.checkOut(9780330351690L, patron, 12, 25, 1776);
+	    patronByNameLibrary.checkOut(9780374292799L, patron, 12, 25, 1776);
+	    List<LibraryBookGeneric<String>> overdueBooks = patronByNameLibrary.getOverdueList(12, 22, 1776);
+	    assertNotNull(overdueBooks);
+	    assertEquals(0, overdueBooks.size());
+	}
+	
+	
 }

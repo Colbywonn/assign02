@@ -276,12 +276,12 @@ public class LibraryGeneric<Type> {
 	 * @return list of all library books that are overdue, sorted by due date
 	 */
 	public List<LibraryBookGeneric<Type>> getOverdueList(int month, int day, int year){
-	    GregorianCalendar dueDate = new GregorianCalendar(month, day, year); 
+	    GregorianCalendar overDueDate = new GregorianCalendar(month, day, year); 
+	    OrderByDueDate<Type> comparator = new OrderByDueDate<Type>();
 	    List<LibraryBookGeneric<Type>> libraryCopy = new ArrayList<LibraryBookGeneric<Type>>();
 	    libraryCopy.addAll(this.library);
-	    OrderByDueDate<Type> comparator = new OrderByDueDate<Type>();
-		   sort(libraryCopy, comparator);
-		   libraryCopy.removeIf(book -> book.getDueDate().compareTo(dueDate) < 0);
-		   return libraryCopy;
+	    libraryCopy.removeIf(book -> (book.getDueDate() == null) || (book.getDueDate().compareTo(overDueDate) > 0)); // We found removeIf from the autocomplete, and used it.
+	    sort(libraryCopy, comparator);
+	    return libraryCopy;
 		}	
 }

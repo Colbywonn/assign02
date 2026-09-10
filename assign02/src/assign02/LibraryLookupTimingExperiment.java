@@ -10,10 +10,10 @@ import java.util.Random;
  * @version September 9, 2026
  */
 public class LibraryLookupTimingExperiment extends TimingExperiment {
-	private static String problemSizeDescription = "librarySize";  // TODO: fill in string appropriately
-	private static int problemSizeMin = 1000;  // TODO: initialize appropriately (do not use 0)
-	private static int problemSizeCount = 100000;  // TODO: initialize appropriately (do not use 0)
-	private static int problemSizeStep = 1000;  // TODO: initialize appropriately (do not use 0)
+	private static String problemSizeDescription = "librarySize";
+	private static int problemSizeMin = 10000;
+	private static int problemSizeCount = 25;
+	private static int problemSizeStep = 10000;
 	private static int experimentIterationCount = 100;
 	
 	private Library randomLibrary;
