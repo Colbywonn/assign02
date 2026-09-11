@@ -4,44 +4,97 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
-public class SortedArrayList<E> implements SortedList<E> {
+public class SortedArrayList<E extends Comparable<? super E>> implements SortedList<E> {
+    
+    private E[] data;
+    private int size;
+    private Comparator<? super E> cmp;
     
     public SortedArrayList() {
-	
+	data = generateNewArray(16);
+	size = 0;
     }
     
+    
     public SortedArrayList(Comparator<? super E> cmp) {
-	
+	this();
+	this.cmp = cmp;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private E[] generateNewArray(int length) {
+	return (E[]) new Object[length];
     }
     
     @Override
     public void clear() {
-	// TODO Auto-generated method stub
-
+	data = generateNewArray(data.length);
+	size = 0;
     }
 
     @Override
     public boolean contains(E element) {
-	// TODO Auto-generated method stub
-	return false;
+	return binarySearch(element) > 0;
     }
+
+    private int binarySearch(E element) {
+	int low = 0, high = size - 1, mid = 0;
+	while(low <= high) {
+		mid = (low + high) / 2;
+		if(element.compareTo(data[mid]) == 0) {
+		    return mid;
+		} else if(element.compareTo(data[mid]) < 0) {
+		    high = mid - 1;
+		} else {
+		    low = mid + 1;
+		}
+	}
+	return -1;
+    }
+    
+    private int binarySearches(E element) {
+	int low = 0, high = size - 1, mid = 0, count = 0;
+	while(low <= high) {
+		mid = (low + high) / 2;
+		if(element.compareTo(data[mid]) == 0) {
+		    count += 1;
+		} else if(element.compareTo(data[mid]) < 0) {
+		    high = mid - 1;
+		} else {
+		    low = mid + 1;
+		}
+	}
+	return count;
+    }
+
 
     @Override
     public boolean containsAll(Collection<? extends E> items) {
-	// TODO Auto-generated method stub
-	return false;
+	for(E item : items) {
+	    if(!contains(item)) {
+		return false;
+	    }
+	}
+	return true;
     }
 
     @Override
     public int countEntries(E target) {
-	// TODO Auto-generated method stub
-	return 0;
+	return binarySearches(target);
     }
 
     @Override
     public void insert(E element) {
-	// TODO Auto-generated method stub
-
+	if(size == data.length){
+	    E[] tempArray = generateNewArray(data.length*2);
+	    for(int i = 0; i < size - 1; i++) {
+		tempArray[i] = data[i];
+	    }
+	    data = tempArray;
+	}
+	
+	size += 1;
+	
     }
 
     @Override
